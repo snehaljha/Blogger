@@ -30,4 +30,13 @@ public class BlogRepository {
     public void persist(Blog blog) {
         entityManager.persist(blog);
     }
+
+    public Blog getByBlogId(Long blogId) {
+        return entityManager.find(Blog.class, blogId);
+    }
+
+    @Transactional
+    public void delete(Blog blog) {
+        entityManager.remove(blog);
+    }
 }

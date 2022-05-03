@@ -1,7 +1,9 @@
 package com.simple.blogger.blog;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -10,6 +12,7 @@ import java.util.stream.Collectors;
 
 import com.simple.blogger.exception.EmptyBlogException;
 import com.simple.blogger.exception.InvalidBlogTitleException;
+import com.simple.blogger.exception.NoBlogFoundException;
 import com.simple.blogger.user.User;
 import com.simple.blogger.user.UserService;
 
@@ -43,7 +46,7 @@ public class BlogService {
     public void writeBlog(BlogDto blogDto) throws Exception {
         validate(blogDto);
         User user = userService.getCurrentUser();
-        String fileName = "user" + user.getId() + "-" + LocalDateTime.now();
+        String fileName = "user" + user.getId() + "-" + LocalDateTime.now() + ".blog";
         writeToFile(fileName, blogDto.getContent());
         try {
             addBlogEntry(fileName, blogDto, user);
@@ -83,5 +86,40 @@ public class BlogService {
         if(!StringUtils.hasText(blogDto.getContent())) {
             throw new EmptyBlogException(blogDto.getContent());
         }
+    }
+
+    public BlogDto getBlogWithDetails(Long blogId) throws Exception {
+        Blog blog = blogRepository.getByBlogId(blogId);
+        String blogContent = readBlog(blog.getFileName());
+        return new BlogDto(blog, userService.getCurrentUser().getId(), blogContent);
+        
+    }
+
+    private String readBlog(String fileName) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(new File(filePath, fileName)));
+
+        StringBuilder sb = new StringBuilder();
+
+        String temp;
+        while((temp = br.readLine()) != null) {
+            sb.append(temp+"\n");
+        }
+        br.close();
+
+        return sb.toString();
+    }
+
+    public Blog getBlogFromId(Long blogId) throws Exception {
+        Blog blog = blogRepository.getByBlogId(blogId);
+        if(blog == null) {
+            throw new NoBlogFoundException(blogId);
+        }
+        return blog;
+    }
+
+    public void deleteBlog(Blog blog) {
+        String filename = blog.getFileName();
+        blogRepository.delete(blog);
+        deleteFile(filename);
     }
 }
