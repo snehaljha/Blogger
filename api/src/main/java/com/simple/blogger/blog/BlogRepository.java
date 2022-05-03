@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
@@ -23,5 +24,10 @@ public class BlogRepository {
         }
 
         return blogs;
+    }
+
+    @Transactional
+    public void persist(Blog blog) {
+        entityManager.persist(blog);
     }
 }
