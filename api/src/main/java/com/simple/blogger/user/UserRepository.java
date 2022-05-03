@@ -14,9 +14,10 @@ public class UserRepository {
     private EntityManager entityManager;
 
     public boolean isUserExist(User user) {
-        TypedQuery<Integer> q = entityManager.createQuery("Select count(o) from User where o.username = :username", Integer.class);
-        Integer result = q.getSingleResult();
-        return result != 0;
+        TypedQuery<Long> q = entityManager.createQuery("Select count(o) from User o where o.username = :username", Long.class);
+        q.setParameter("username", user.getUsername());
+        Long result = q.getSingleResult();
+        return result != 0l;
     }
 
     @Transactional
@@ -25,7 +26,8 @@ public class UserRepository {
     }
 
     public User getUserByUsername(String username) {
-        TypedQuery<User> q = entityManager.createQuery("Select o from User where o.username = :username", User.class);
+        TypedQuery<User> q = entityManager.createQuery("Select o from User o where o.username = :username", User.class);
+        q.setParameter("username", username.trim());
         return q.getSingleResult();
     }
 }

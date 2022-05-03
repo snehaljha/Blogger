@@ -7,14 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("/user")
 public class UserController {
 
@@ -46,18 +41,5 @@ public class UserController {
 
         ResponseEntity<String> responseEntity = new ResponseEntity<>("Erorr creating User", HttpStatus.INTERNAL_SERVER_ERROR);
         return responseEntity;
-    }
-
-    private String getCurrentUsername() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        String username;
-        if (principal instanceof UserDetails) {
-        username = ((UserDetails)principal).getUsername();
-        } else {
-        username = principal.toString();
-        }
-
-        return username;
     }
 }

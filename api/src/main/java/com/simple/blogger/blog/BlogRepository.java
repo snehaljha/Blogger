@@ -16,7 +16,7 @@ public class BlogRepository {
     private EntityManager entityManager;
 
     public List<Blog> getBlogs() {
-        TypedQuery<Blog> q = entityManager.createQuery("Select o from Blog", Blog.class);
+        TypedQuery<Blog> q = entityManager.createQuery("Select o from Blog o", Blog.class);
         List<Blog> blogs = q.getResultList();
         if(blogs == null) {
             return Collections.emptyList();

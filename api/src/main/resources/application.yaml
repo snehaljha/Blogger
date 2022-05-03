@@ -9,11 +9,12 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
 
   h2:
-    console.enabled: true
-    console.path: /h2-console
-    console.settings.trace: false 
-    spring.h2.console.settings.web-allow-others: false
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false 
+        web-allow-others: true
 
 blog:
   path: /mnt/d/project/Blogger/blogs
-  tokenLength: 10
