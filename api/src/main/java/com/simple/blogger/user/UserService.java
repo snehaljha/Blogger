@@ -12,17 +12,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService implements UserDetailsService {
     private UserRepository userRepository;
+    private Encoder encoder;
 
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+        this.encoder = encoder;
     }
     
     public boolean createUser(User user) throws Exception {
         if(userRepository.isUserExist(user)) {
             throw new UserAlreadyExistException(user.getUsername());
         }
-
+        user.setPassword(encoder.encode(user.getPassword()));
         userRepository.registerUser(user);
         return true;
     }
