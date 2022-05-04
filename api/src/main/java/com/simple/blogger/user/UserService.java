@@ -1,6 +1,7 @@
 package com.simple.blogger.user;
 
 import com.simple.blogger.exception.UserAlreadyExistException;
+import com.simple.blogger.security.Encoder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,7 +16,7 @@ public class UserService implements UserDetailsService {
     private Encoder encoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, Encoder encoder) {
         this.userRepository = userRepository;
         this.encoder = encoder;
     }
