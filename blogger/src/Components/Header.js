@@ -1,16 +1,19 @@
 import "../Assets/Styles/header.css";
 
-// const headingStyle = {
-//     fontSize: "2rem",
-//   };
-  
 
-const Header = () => (
-    <div className="header">
-        <div className='heading'>Blogger</div>    
+const Header = (props) => {
+  // const display = {
+  //   color : 'red',
+  // }; 
+    return(
+      <div className="header">
+        <div className='heading'>Blogger</div>  
+        <a href="/auth" className = 'logout'>LogOut</a>
+
     </div>
-);
+    )
 
+};
 
 
 export default Header;
