@@ -19,7 +19,7 @@ function App() {
       <Header user={user} updateUser={updateCurrentUser} />
       <Router>
         <Routes>
-          <Route path="/auth" exact
+          <Route path="/auth/*" exact
             element={<Auth updateUser={updateCurrentUser} />}
           />
           <Route path="/blog" exact

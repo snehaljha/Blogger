@@ -11,7 +11,7 @@ const Home = (props) => {
     useEffect(() => {
         if(user === undefined) {
             console.log('navigating');
-            navigate('/auth');
+            navigate('/auth/login');
         }
     }, [user]);
     
