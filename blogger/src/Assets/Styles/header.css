@@ -29,4 +29,11 @@
 
 .spacer {
   width: 6rem;
+  font-weight: bolder;
+  font-size: 1.3em;
+  cursor: pointer;
+}
+
+.spacer:hover {
+  text-shadow: 2px 0 2px black;
 }
