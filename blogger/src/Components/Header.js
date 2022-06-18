@@ -1,7 +1,7 @@
 import "../Assets/Styles/header.css";
 
-
 const Header = (props) => {
+
   const displayStyle = {
     display: props.user === undefined ? 'none' : 'block'
   };
@@ -14,13 +14,9 @@ const Header = (props) => {
     props.updateUser(undefined);
   };
 
-  const createBlog = () => {
-    console.log('Navigate to create blog link')
-  };
-
   return(
-    <div className="header" style={justifyStyle} onClick={createBlog}>
-      <div className="spacer" style={displayStyle}>+</div>
+    <div className="header" style={justifyStyle}>
+      <div className="spacer" style={displayStyle}></div>
       <div className='heading'>Blogger</div>
       <div className='logout' style={displayStyle} onClick={logOut}>LogOut</div>
 

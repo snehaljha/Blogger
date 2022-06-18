@@ -140,3 +140,16 @@ body {
   flex-direction: column;
   position: relative;
 }
+
+.create {
+  font-weight: bolder;
+  font-size: 2.5em;
+  cursor: pointer;
+  float: left;
+  margin-left: 2rem;
+  color: white;
+}
+
+.create:hover {
+  text-shadow: 2px 0 2px #1abc9c;
+}

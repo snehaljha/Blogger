@@ -5,6 +5,7 @@ import Home from "./Components/home/Home";
 import Header from "./Components/Header";
 import "./Assets/Styles/main.css"
 import { useState } from "react";
+import BlogEdit from "./Components/blogedit/BlogEdit";
 
 function App() {
 
@@ -27,6 +28,9 @@ function App() {
           />
           <Route path="/" exact
             element={<Home user={user} />}
+          />
+          <Route path="/create" exact
+            element={<BlogEdit user={user} blog={{title: '', description: '', user: '', content: ''}} />}
           />
         </Routes>
       </Router>

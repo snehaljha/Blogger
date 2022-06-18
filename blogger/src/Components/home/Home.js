@@ -13,7 +13,7 @@ const Home = (props) => {
             console.log('navigating');
             navigate('/auth/login');
         }
-    }, [user]);
+    }, [user, navigate]);
     
 
     const defaultBlogs = [
@@ -45,8 +45,14 @@ const Home = (props) => {
         let filteredBlogs = defaultBlogs.filter(i => i.title.toLowerCase().includes(searchStr.toLowerCase()) || i.description.toLowerCase().includes(searchStr.toLowerCase()) || i.author.toLowerCase().includes(searchStr.toLowerCase()));
         setBlogs(filteredBlogs);
     };
+
+    const createBlog = () => {
+        navigate('/create');
+    };
+
     return (
         <div>
+            <div className='create' onClick={createBlog}>+</div>
             <div className='search-container'>
                 <input type='text' placeholder='Search...' onChange={filterBlog} />
                 <div className="search"></div>
