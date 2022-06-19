@@ -45,6 +45,6 @@
     cursor: pointer;
 }
 
-.signup-button:hover {
+.signup-button:active {
     background-color: #106957;
 }

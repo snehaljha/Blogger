@@ -17,7 +17,7 @@ const Header = (props) => {
   return(
     <div className="header" style={justifyStyle}>
       <div className="spacer" style={displayStyle}></div>
-      <div className='heading'>Blogger</div>
+      <div className='heading'>{props.headerText}</div>
       <div className='logout' style={displayStyle} onClick={logOut}>LogOut</div>
 
     </div>

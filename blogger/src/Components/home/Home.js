@@ -18,16 +18,19 @@ const Home = (props) => {
 
     const defaultBlogs = [
         {
+            id: '1',
             title: 'React',
             description: 'Khatri React Description',
             author: 'Khatri User'
         },
         {
+            id: '2',
             title: 'Angular',
             description: 'Khatri Angular Description',
             author: 'Khatri User'
         },
         {
+            id: '3',
             title: 'Electron',
             description: 'Khatri Electron Description',
             author: 'Chhatri User'
@@ -37,7 +40,7 @@ const Home = (props) => {
     let [blogs, setBlogs] = useState(() => defaultBlogs);
 
     const renderBlogCards = () => {
-        return blogs.map(i => (<BlogCard blog={i} />));
+        return blogs.map(i => (<BlogCard blog={i} key={i.id} />));
     };
 
     const filterBlog = (e) => {

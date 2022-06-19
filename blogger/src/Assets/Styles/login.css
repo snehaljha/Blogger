@@ -44,6 +44,6 @@
     cursor: pointer;
 }
 
-.login-button:hover {
+.login-button:active {
     background-color: #106957;
 }

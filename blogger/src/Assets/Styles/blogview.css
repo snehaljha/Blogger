@@ -1,0 +1,28 @@
+.view-container {
+    margin: 30px;
+    padding: 15px;
+}
+
+h3.description {
+    color: #1abc9c;
+    margin-bottom: 45px;
+}
+
+div#content {
+    color: white;
+    margin-bottom: 45px;
+}
+
+.edit-button {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 12px;
+    background-color: #1abc9c;
+    color: white;
+    margin-top: 1rem;
+    cursor: pointer;
+}
+
+.edit-button:active {
+    background-color: #106957;
+}
