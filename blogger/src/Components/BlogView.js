@@ -40,7 +40,9 @@ const BlogView = (props) => {
         };
     });
 
-    console.log(blogId);
+    const goToEdit = () => {
+        navigate(`/edit/${blogId}`);
+    }
 
     return (
         <div className="view-container">
@@ -48,7 +50,7 @@ const BlogView = (props) => {
             <div id="content" dangerouslySetInnerHTML={{ __html: blog.content }}>
             </div>
 
-            <button style={buttonStyle} className="edit-button">Edit</button>
+            <button style={buttonStyle} className="edit-button" onClick={goToEdit}>Edit</button>
         </div>
     );
 };

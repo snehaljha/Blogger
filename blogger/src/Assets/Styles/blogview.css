@@ -3,7 +3,7 @@
     padding: 15px;
 }
 
-h3.description {
+h3#description {
     color: #1abc9c;
     margin-bottom: 45px;
 }

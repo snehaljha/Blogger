@@ -34,10 +34,13 @@ function App() {
             element={<Home user={user} />}
           />
           <Route path="/create" exact
-            element={<BlogEdit user={user} blog={{title: '', description: '', user: '', content: ''}} />}
+            element={<BlogEdit user={user} />}
           />
           <Route path="/view/:blogId" exact
             element={<BlogView user={user} updateHeader={updateHeaderText} resetHeader={resetHeader} />}
+          />
+          <Route path="/edit/:blogId" exact 
+            element={<BlogEdit user={user} />}
           />
         </Routes>
       </Router>
