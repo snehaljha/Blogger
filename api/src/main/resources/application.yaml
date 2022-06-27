@@ -18,3 +18,8 @@ spring:
 
 blog:
   path: /mnt/d/project/Blogger/blogs
+
+token:
+  key: TXyQVtMaj54PWV3dkIxXFUjVaD3QQ3Ld
+  timeoutInMinute: 15
+  header: auth-token
