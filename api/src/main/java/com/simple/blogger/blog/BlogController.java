@@ -2,6 +2,7 @@ package com.simple.blogger.blog;
 
 import java.util.List;
 
+import com.simple.blogger.exception.InvalidAuthorException;
 import com.simple.blogger.exception.NoBlogFoundException;
 import com.simple.blogger.user.User;
 import com.simple.blogger.user.UserService;
@@ -94,6 +95,24 @@ public class BlogController {
         }
 
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<?> updateBlog(@RequestParam(name = "blogId") Long blogId, @RequestBody BlogDto blogDto) {
+        try {
+            logger.info("updating blog: " + blogDto.getTitle());
+            blogDto.setId(blogId);
+            blogService.update(blogDto);
+            logger.info("updated blog: " + blogDto.getTitle());
+        } catch (InvalidAuthorException ex) {
+            logger.warn(ex.getLocalizedMessage());
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+        } catch (Exception ex) {
+            logger.error(ex.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

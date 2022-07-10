@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.simple.blogger.exception.EmptyBlogException;
+import com.simple.blogger.exception.InvalidAuthorException;
+import com.simple.blogger.exception.InvalidBlogDescriptionException;
 import com.simple.blogger.exception.InvalidBlogTitleException;
 import com.simple.blogger.exception.NoBlogFoundException;
 import com.simple.blogger.user.User;
@@ -36,11 +38,7 @@ public class BlogService {
     }
 
     public List<BlogDto> getBlogList() {
-        User user = userService.getCurrentUser();
-
-        List<BlogDto> blogList = blogRepository.getBlogs().stream().map(i -> new BlogDto(i, user.getId())).collect(Collectors.toList());
-
-        return blogList;
+        return blogRepository.getBlogs().stream().map(BlogDto::new).collect(Collectors.toList());
     }
 
     public void writeBlog(BlogDto blogDto) throws Exception {
@@ -65,6 +63,7 @@ public class BlogService {
         Blog blog = new Blog();
         blog.setFileName(fileName);
         blog.setTitle(blogDto.getTitle());
+        blog.setDescription(blogDto.getDescription());
         blog.setUser(user);
 
         blogRepository.persist(blog);
@@ -83,6 +82,10 @@ public class BlogService {
             throw new InvalidBlogTitleException(blogDto.getTitle());
         }
 
+        if(!StringUtils.hasText(blogDto.getDescription())) {
+            throw new InvalidBlogDescriptionException(blogDto.getDescription());
+        }
+
         if(!StringUtils.hasText(blogDto.getContent())) {
             throw new EmptyBlogException(blogDto.getContent());
         }
@@ -91,7 +94,7 @@ public class BlogService {
     public BlogDto getBlogWithDetails(Long blogId) throws Exception {
         Blog blog = blogRepository.getByBlogId(blogId);
         String blogContent = readBlog(blog.getFileName());
-        return new BlogDto(blog, userService.getCurrentUser().getId(), blogContent);
+        return new BlogDto(blog, blogContent);
         
     }
 
@@ -121,5 +124,31 @@ public class BlogService {
         String filename = blog.getFileName();
         blogRepository.delete(blog);
         deleteFile(filename);
+    }
+
+    public void update(BlogDto blogDto) throws IOException {
+        Blog blog = blogRepository.getByBlogId(blogDto.getId());
+        User currentUser = userService.getCurrentUser();
+        if(!blog.getUser().getUsername().equals(currentUser.getUsername())) {
+            throw new InvalidAuthorException(currentUser.getUsername());
+        }
+
+        validate(blogDto);
+        
+        String fileName = "user" + currentUser.getId() + "-" + LocalDateTime.now() + ".blog";
+        String prevFileName = blog.getFileName();
+        blog.setTitle(blogDto.getTitle());
+        blog.setDescription(blogDto.getDescription());
+        blog.setFileName(fileName);
+        
+        writeToFile(fileName, blogDto.getContent());
+        try {
+            blogRepository.merge(blog);
+            deleteFile(prevFileName);
+        } catch (Exception ex) {
+            deleteFile(fileName);
+            throw ex;
+        }
+
     }
 }
