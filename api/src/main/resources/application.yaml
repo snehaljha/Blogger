@@ -1,12 +1,13 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:mydb
+    url: jdbc:h2:file:../db
     username: sa
     password: password
     driverClassName: org.h2.Driver
 
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+    hibernate.ddl-auto: update
 
   h2:
     console:
@@ -17,7 +18,7 @@ spring:
         web-allow-others: true
 
 blog:
-  path: /mnt/d/project/Blogger/blogs
+  path: ../blogs
 
 token:
   key: TXyQVtMaj54PWV3dkIxXFUjVaD3QQ3Ld
