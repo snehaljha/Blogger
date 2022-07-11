@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../../api/BloggerApi';
+import appConfig from '../../config/AppConfig.json';
 import '../../Assets/Styles/login.css';
 
 const Login = (props) => {
@@ -30,14 +32,23 @@ const Login = (props) => {
             return;
         }
 
-        const user = {
-            username: form.username,
-            name: form.username
-        };
+        const headers = appConfig.headers;
         
-        props.updateUser(user);
+        api.post('/user/login', JSON.stringify(form), {headers}).then((response) => {
+            const user = {
+                username: form.username,
+                name: form.username
+            };
+            
+            props.updateUser(user);
 
-        navigate('/');
+            props.updateToken(response.data);
+    
+            navigate('/');
+        }).catch((er) => {
+                console.error(er);
+                alert('Login Failed');
+        });
     };
 
     return (
@@ -45,7 +56,7 @@ const Login = (props) => {
             <form>
                 <input className="login-input" type='text' placeholder='Username' value={form.username} onChange={(e) => formChange({...form, username: e.target.value})} />
                 <input className="login-input" type='password' placeholder='Password' value={form.password} onChange={(e) => formChange({...form, password: e.target.value})} />
-                <button className='login-button' onClick={login}>Login</button>
+                <button className='login-button' onClick={login} type="button">Login</button>
             </form>
         </div>
     );

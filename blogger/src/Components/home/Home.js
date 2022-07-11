@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../../api/BloggerApi';
 import '../../Assets/Styles/home.scss';
 import BlogCard from './BlogCard';
 
@@ -8,36 +9,28 @@ const Home = (props) => {
     const navigate = useNavigate();
     const user = props.user;
 
+    let allBlogs = [];
+
     useEffect(() => {
         if(user === undefined) {
             console.log('navigating');
             navigate('/auth/login');
         }
+
+        const headers = {
+            "auth-token": props.token
+        };
+
+        api.get('/blog/list', {headers}).then(response => {
+            allBlogs = response.data;
+            setBlogs(allBlogs);
+        }).catch(er => {
+            console.error(er);
+        });
+
     }, [user, navigate]);
     
-
-    const defaultBlogs = [
-        {
-            id: '1',
-            title: 'React',
-            description: 'Khatri React Description',
-            author: 'Khatri User'
-        },
-        {
-            id: '2',
-            title: 'Angular',
-            description: 'Khatri Angular Description',
-            author: 'Khatri User'
-        },
-        {
-            id: '3',
-            title: 'Electron',
-            description: 'Khatri Electron Description',
-            author: 'Chhatri User'
-        }
-    ];
-    
-    let [blogs, setBlogs] = useState(() => defaultBlogs);
+    let [blogs, setBlogs] = useState(() => allBlogs);
 
     const renderBlogCards = () => {
         return blogs.map(i => (<BlogCard blog={i} key={i.id} />));
@@ -45,7 +38,7 @@ const Home = (props) => {
 
     const filterBlog = (e) => {
         let searchStr = e.target.value;
-        let filteredBlogs = defaultBlogs.filter(i => i.title.toLowerCase().includes(searchStr.toLowerCase()) || i.description.toLowerCase().includes(searchStr.toLowerCase()) || i.author.toLowerCase().includes(searchStr.toLowerCase()));
+        let filteredBlogs = allBlogs.filter(i => i.title.toLowerCase().includes(searchStr.toLowerCase()) || i.description.toLowerCase().includes(searchStr.toLowerCase()) || i.author.toLowerCase().includes(searchStr.toLowerCase()));
         setBlogs(filteredBlogs);
     };
 

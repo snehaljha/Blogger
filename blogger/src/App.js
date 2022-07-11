@@ -13,6 +13,12 @@ function App() {
   const defaultHeader = 'Blogger';
   let [headerText, updateHeaderText] = useState(() => defaultHeader);
 
+  let[token, updateToken] = useState(() => undefined);
+
+  const updateApiToken = (newToken) => {
+    updateToken(newToken);
+  }
+
   const updateCurrentUser = (newUser) => {
     updateUser(newUser);
   };
@@ -28,19 +34,19 @@ function App() {
       <Router>
         <Routes>
           <Route path="/auth/*" exact
-            element={<Auth updateUser={updateCurrentUser} />}
+            element={<Auth updateUser={updateCurrentUser} updateToken={updateApiToken} />}
           />
           <Route path="/" exact
-            element={<Home user={user} />}
+            element={<Home user={user} token={token} />}
           />
           <Route path="/create" exact
-            element={<BlogEdit user={user} />}
+            element={<BlogEdit user={user} token={token} />}
           />
           <Route path="/view/:blogId" exact
-            element={<BlogView user={user} updateHeader={updateHeaderText} resetHeader={resetHeader} />}
+            element={<BlogView user={user} updateHeader={updateHeaderText} resetHeader={resetHeader} token={token} />}
           />
           <Route path="/edit/:blogId" exact 
-            element={<BlogEdit user={user} />}
+            element={<BlogEdit user={user} token={token} />}
           />
         </Routes>
       </Router>

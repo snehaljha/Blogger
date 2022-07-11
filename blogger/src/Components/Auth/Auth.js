@@ -38,7 +38,7 @@ const Auth = (props) => {
             </div>
             <Routes>
                 <Route path="/login" exact 
-                    element={<Login updateUser={props.updateUser} />}
+                    element={<Login updateUser={props.updateUser} updateToken={props.updateToken} />}
                 />
                 <Route path="/signup" exact
                     element={<Signup changeTab={changeFormState} />}

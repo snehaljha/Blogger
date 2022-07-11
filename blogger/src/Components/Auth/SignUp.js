@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../../api/BloggerApi';
+import AppConfig from '../../config/AppConfig.json';
 import '../../Assets/Styles/signup.css'
 
 const Signup = (props) => {
@@ -30,11 +32,28 @@ const Signup = (props) => {
         return true;
     };
 
+    const signupUtil = (request) => {
+        const headers = AppConfig.headers;
+        api.post('/user/create', JSON.stringify(request), { headers }).then((response) => {
+            if(response.data === true) {
+                navigate('/auth/login');
+                props.changeTab('login');
+            } else {
+                alert(response.data);
+            }
+        }).catch((res) => {
+            console.error(res);
+            alert('Some unexpected error');
+        });
+    };
+
     const signup = () => {
         let val = validate();
         if(val === true) {
-            navigate('/auth/login');
-            props.changeTab('login');
+
+            const request = {...form};
+            delete request.password2;
+            signupUtil(request);
         }
     };
 
@@ -45,7 +64,7 @@ const Signup = (props) => {
                 <input className="signup-input" type='text' placeholder='Name' value={form.name} onChange={(e) => formChange({...form, name: e.target.value})} />
                 <input className="signup-input" type='password' placeholder='Password' value={form.password} onChange={(e) => formChange({...form, password: e.target.value})} />
                 <input className="signup-input" type='password' placeholder='Confirm Password' value={form.password2} onChange={(e) => formChange({...form, password2: e.target.value})} />
-                <button className='signup-button' onClick={signup}>Sign Up</button>
+                <button className='signup-button' onClick={signup} type="button">Sign Up</button>
             </form>
         </div>
     );
