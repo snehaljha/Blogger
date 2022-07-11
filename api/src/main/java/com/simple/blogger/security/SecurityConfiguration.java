@@ -1,5 +1,7 @@
 package com.simple.blogger.security;
 
+import java.util.Arrays;
+
 import com.simple.blogger.security.filter.JwtRequestFilter;
 import com.simple.blogger.user.UserService;
 
@@ -57,7 +59,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        CorsConfiguration corsConfig = new CorsConfiguration().applyPermitDefaultValues();
+        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT"));
+        source.registerCorsConfiguration("/**", corsConfig);
         return source;
     }
 
