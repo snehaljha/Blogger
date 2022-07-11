@@ -41,12 +41,11 @@
 }
 
 .save-btn {
+    flex-grow: 2;
     background-color: #1abc9c;
     color: white;
-    width: 100px;
     padding: 10px;
-    margin-top: 2rem;
-    align-self: center;
+    margin-right: 0.5rem;
     border-radius: 10px;
     border-style: none;
     outline: none;
@@ -58,4 +57,29 @@
 
 .save-btn:active {
     box-shadow: none;
+}
+
+.button-container {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-evenly;
+    margin: 2rem;
+}
+
+.delete-button {
+    flex-grow: 1;
+    padding: 10px;
+    border-radius: 12px;
+    background-color: #d23c3c;
+    color: white;
+    margin-left: 0.5rem;
+    cursor: pointer;
+}
+
+.delete-button:active {
+    background-color: #a22b2b;
+}
+
+.delete-button:hover {
+    box-shadow: 0px 2px 5px #d23c3c;
 }

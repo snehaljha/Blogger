@@ -1,47 +1,76 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import api from '../api/BloggerApi';
 import '../Assets/Styles/blogview.css';
 
 const BlogView = (props) => {
 
-    let buttonStyle = {display: 'none'};
+    let [buttonStyle, setButtonStyle] = useState(() => ({display: 'none'}));
 
     const { blogId } = useParams();
     const navigate = useNavigate();
-    const getBlog = () => {
-        let blog = {
-            id: blogId,
-            title: 'Sample Title of the Blog',
-            description: 'React is a free and open-source front-end JavaScript library for building user interfaces based on UI components. It is maintained by Meta and a community of individual developers and companies.',
-            content: '<p>The trail to the left had a "Danger! Do Not Pass" sign telling people to take the trail to the right. This wasn\'t the way Zeke approached his hiking. Rather than a warning, Zeke read the sign as an invitation to explore an area that would be adventurous and exciting. As the others in the group all shited to the right, Zeke slipped past the danger sign to begin an adventure he would later regret.</p><br><br>' +
-                '<p>She nervously peered over the edge. She understood in her mind that the view was supposed to be beautiful, but all she felt was fear. There had always been something about heights that disturbed her, and now she could feel the full force of this unease. She reluctantly crept a little closer with the encouragement of her friends as the fear continued to build. She couldn\'t help but feel that something horrible was about to happen.</p>',
-            username: 'editableUser'
-        };
+    // const fetchBlog = () => {
 
-        if(props.user && props.user.username === blog.username) {
-            buttonStyle = {display: 'block'};
+    //     const headers = {
+    //         'auth-token': props.token
+    //     }
+
+    //     api.get('/blog/view?blogId='+blogId, {headers}).then(response => {
+    //         setBlog(response.data);
+    //         if(props.user && props.user.username === response.data.author) {
+    //             setButtonStyle({display: 'flex'});
+    //         }
+    //         props.updateHeader(response.data.title);
+    //     }).catch(error => {
+    //         console.error(error);
+    //         alert(error);
+    //     });
+
+    // };
+
+    
+    let [blog, setBlog] = useState(() => ({
+        id: 0,
+        title: '',
+        description: '',
+        content: '',
+        username: ''
+    }));
+    
+    useEffect(() => {
+        
+        const headers = {
+            'auth-token': props.token
         }
 
-        return blog;
-    };
+        api.get('/blog/view?blogId='+blogId, {headers}).then(response => {
+            setBlog(response.data);
+            if(props.user && props.user.username === response.data.author) {
+                setButtonStyle({display: 'flex'});
+            }
+            props.updateHeader(response.data.title);
+        }).catch(error => {
+            console.error(error);
+            alert(error);
+        });
+    }, []);
 
-    
-    const blog = getBlog();
-    
     useEffect(() => {
         if (props.user === undefined) {
             console.log('navigating');
             navigate('/auth/login');
         }
-        
-        props.updateHeader(blog.title);
         return () => {
             props.resetHeader();
         };
-    });
+    }, [props, navigate]);
 
     const goToEdit = () => {
         navigate(`/edit/${blogId}`);
+    }
+
+    const deleteBlog = () => {
+        console.log('delete ' + blogId);
     }
 
     return (
@@ -50,7 +79,10 @@ const BlogView = (props) => {
             <div id="content" dangerouslySetInnerHTML={{ __html: blog.content }}>
             </div>
 
-            <button style={buttonStyle} className="edit-button" onClick={goToEdit}>Edit</button>
+            <div className="button-container" style={buttonStyle}>
+                <button type="button" className="edit-button" onClick={goToEdit}>Edit</button>
+                <button type="button" className="delete-button" onClick={deleteBlog}>Delete</button>
+            </div>
         </div>
     );
 };
