@@ -2,6 +2,7 @@ package com.simple.blogger.blog;
 
 import java.util.List;
 
+import com.simple.blogger.exception.InvalidAuthorException;
 import com.simple.blogger.exception.NoBlogFoundException;
 import com.simple.blogger.user.User;
 import com.simple.blogger.user.UserService;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -94,6 +96,24 @@ public class BlogController {
         }
 
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateBlog(@RequestParam(name = "blogId") Long blogId, @RequestBody BlogDto blogDto) {
+        try {
+            logger.info("updating blog: " + blogDto.getTitle());
+            blogDto.setId(blogId);
+            blogService.update(blogDto);
+            logger.info("updated blog: " + blogDto.getTitle());
+        } catch (InvalidAuthorException ex) {
+            logger.warn(ex.getLocalizedMessage());
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+        } catch (Exception ex) {
+            logger.error(ex.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

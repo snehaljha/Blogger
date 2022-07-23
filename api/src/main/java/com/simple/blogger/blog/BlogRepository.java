@@ -39,4 +39,9 @@ public class BlogRepository {
     public void delete(Blog blog) {
         entityManager.remove(blog);
     }
+
+    @Transactional
+    public void merge(Blog blog) {
+        entityManager.merge(blog);
+    }
 }

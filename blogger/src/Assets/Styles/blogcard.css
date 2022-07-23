@@ -1,0 +1,26 @@
+.blog-container {
+  width: 90%;
+  background: #1abc9c;
+  margin: auto;
+  border-radius: 2rem;
+  margin-top: 1rem;
+  display: flex;
+  padding: 1rem;
+  justify-content: space-between;
+}
+
+.blog-body {
+  height: 100%;
+  /* background: yellow; */
+  flex-grow: 5;
+}
+
+.author-body {
+ height: 100%;
+ /* background: red; */
+ flex-grow: 1;
+}
+
+.title {
+  margin-bottom: 0.5rem;
+}

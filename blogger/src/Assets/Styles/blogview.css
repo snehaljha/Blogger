@@ -1,0 +1,49 @@
+.view-container {
+    margin: 30px;
+    padding: 15px;
+}
+
+h3#description {
+    color: #1abc9c;
+    margin-bottom: 45px;
+}
+
+div#content {
+    color: white;
+    margin-bottom: 45px;
+}
+
+.edit-button {
+    flex-grow: 2;
+    padding: 0.5rem;
+    border-radius: 12px;
+    background-color: #1abc9c;
+    color: white;
+    margin-top: 1rem;
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+
+.edit-button:active {
+    background-color: #106957;
+}
+
+.button-container {
+    align-items: baseline;
+    justify-content: space-evenly;
+}
+
+.delete-button {
+    flex-grow: 1;
+    padding: 0.5rem;
+    border-radius: 12px;
+    background-color: #d23c3c;
+    color: white;
+    margin-top: 1rem;
+    margin-left: 0.5rem;
+    cursor: pointer;
+}
+
+.delete-button:active {
+    background-color: #a22b2b;
+}
